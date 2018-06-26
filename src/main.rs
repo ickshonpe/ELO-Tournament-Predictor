@@ -51,7 +51,6 @@ fn save_test_data_2() {
     use std::io::Write;
     use std::collections::BTreeMap;
     use toml::Value;
-
         let data = [
             ("Jack", 1500, 0), 
             ("Jill", 1400, 1), 
@@ -71,7 +70,6 @@ fn save_test_data_2() {
             ("John", 2260, 15)
         ].iter().map(|(name, elo, draw)| Player { name: name.to_string().to_string(), elo: *elo, draw: *draw }).collect::<Vec<_>>();
         let mut map: BTreeMap<String, Vec<Player>> = std::collections::BTreeMap::new();
-        
         map.insert("Players".into(), data);
         let toml_output = toml::to_string(&map).unwrap();
         let mut file = File::create("players.toml").unwrap();
@@ -79,47 +77,32 @@ fn save_test_data_2() {
 }
 
 
-fn read_data() -> Vec<Player> {
+fn read_data(file_name: &str) -> Vec<Player> {
     use std::fs::File;
     use std::io::Read;
     use std::collections::BTreeMap;
     use toml::Value;
-    let mut file = File::open("players.toml").unwrap();
+    let mut file = File::open(file_name).unwrap();
     let mut contents = String::new();
     file.read_to_string(&mut contents);
-    //println!("{}", contents);
-    // let data = toml::from_str(&contents).unwrap();
-    // println!("{:?}", data);
     let mut map: BTreeMap<String, Vec<Player>> = toml::from_str(&contents).unwrap();
     map.remove("Players").unwrap()
 }
 
 fn main() {
-    let players = read_data();
-    let elo_predictor =|p: &Player, q: &Player| victory_probability(p.elo, q.elo);
-    let another_predictor = |p: &Player, q: &Player| { 
-        if p.draw == 5 {
-            1.0f64
-        } else if q.draw == 5 {
-            0.0f64
-        } else {
-            0.5f64
-        }
+    let arg = std::env::args().skip(1).next();
+    let file_name = match arg {
+        Some(s) => s, 
+        None => "players.toml".into()
     };
-        let mut m = 2;
-    for i in 1..=4 {
-        let mut accum = 0f64;
-        for player in &players[0..m] {
-            let p = probability_wins(&player, &players[0..m], &elo_predictor);    
-            
-            println!("player {} wins {}% of the time", player.name, p * 100f64);
-            accum += p;
-        }   
-        println!("total ={}", accum); 
-        m *= 2;
-    }
-    
-}
+    let players = read_data(&file_name);
+    let elo_predictor =|p: &Player, q: &Player| victory_probability(p.elo, q.elo);
+    for player in &players[0..m] {
+        let p = probability_wins(&player, &players[0..m], &elo_predictor);  
+        println!("player {} wins {}% of the time", player.name, p * 100f64); 
+    }   
+}   
+
 
 #[test] 
 fn test_elo() {
