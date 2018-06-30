@@ -95,9 +95,9 @@ fn parse_tournament_data(tournament_data: &BTreeMap<String, toml::Value>) -> Tou
         _ => 0
     } as usize;
     let structure = if let Some(Value::String(structure)) = tournament_data.get("structure") {
-        match structure.as_ref() {
-            "Double Elimination" => TournamentStructure::DoubleElimination,
-            "Single Elimination" => TournamentStructure::SingleElimination,
+        match structure.to_lowercase().as_ref() {
+            "double elimination" => TournamentStructure::DoubleElimination,
+            "single elimination" => TournamentStructure::SingleElimination,
             s => {
                 eprintln!("Invalid tournament structure: {}", s);
                 std::process::exit(2);
