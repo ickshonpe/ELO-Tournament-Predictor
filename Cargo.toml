@@ -4,9 +4,6 @@ version = "0.1.0"
 authors = ["David Curthoys <david.curthoys@googlemail.com>"]
 
 [dependencies]
-maplit = "*"
-rand = "*"
 serde = "*"
 serde_derive = "*"
-num = "*"
 toml = "*"

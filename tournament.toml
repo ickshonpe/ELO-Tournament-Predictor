@@ -1,0 +1,26 @@
+[tournament]
+structure = "single elimination"        # only single elimination supported at the moment
+size = 16                               # number of players, must be a power of 2 and greater than 1
+
+[ Players ]
+# "player name" = { ELO, draw number }
+# draw number must be unique and less than tournament size (if size specified). Empty spots become byes.
+# in single elimination brackets are structured so 1 plays 2, 2 plays 3, .. , and 15 plays 16 in the first round.
+# in the second round winner of 1 and 2 vs winner of 3 and 4, .. , winner of 13 and 14 vs winner of 15 and 16.
+# and so on for the remaining rounds.
+"Jack" = { elo = 1500, draw = 1 }
+"Jill" = { elo = 1500, draw = 2 }
+"James" = { elo = 1800, draw = 3 }
+"Jacques" = { elo = 2400, draw = 4 }
+"Jacob" = { elo = 1300, draw = 5 }
+"Jacqueline" = { elo = 1500, draw = 6 }
+"Jesus" = { elo = 2200, draw = 7 }
+"Jerome" = { elo = 2100, draw = 8 }
+"Jeremy" = { elo = 2300, draw = 9 }
+"Jane" = { elo = 1900, draw = 10 }
+"Janice" = { elo = 1890, draw = 11 }
+"Jasmine" = { elo = 1300, draw = 12 }
+"Jasper" = { elo = 2000, draw = 13 }
+"Jay" = { elo = 2500, draw = 14 }
+"Jordan" = { elo = 2350, draw = 15 }
+"John" = { elo = 2260, draw = 16 }
